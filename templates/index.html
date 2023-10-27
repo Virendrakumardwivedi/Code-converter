@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #conversion-form {
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #1e6ab4;
+        }
+
+        #code-result {
+            margin: 10px;
+         
+            background-color: #fff;
+            padding: 60px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        pre {
+            white-space: pre-wrap;
+        }
+
+        /* CSS for the heading */
+        h1 {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* CSS for the button */
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* CSS for the input box */
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Converter</h1>
+    <form id="conversion-form">
+        <input type="text" id="keyword" placeholder="Enter a keyword">
+        <select id="language">
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="c++">C++</option>
+            <!-- Add more language options as needed -->
+        </select>
+        <button type="button" onclick="convertCode()">Convert</button>
+    </form>
+    <div  id="code-result">
+       
+        <!-- Converted code will be displayed here -->
+    </div>
+    <script>
+        function convertCode() {
+            var keyword = document.getElementById('keyword').value;
+            var language = document.getElementById('language').value;
+
+            fetch('/convert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Set the content type to JSON
+                    // You can add other headers if needed
+                  },
+                body: JSON.stringify({
+                    "keyword":keyword,
+                    'language':language
+                }),
+                
+               // body: 'keyword=' + keyword + 'language=' + language
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('code-result').innerHTML = '<pre>' + data.code + '</pre>';
+            });
+        }
+    </script>
+</body>
+</html>
